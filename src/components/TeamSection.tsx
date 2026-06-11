@@ -22,7 +22,7 @@ interface TeamMember {
 const FACULTY: TeamMember[] = [
   {
     id: 1,
-    name: 'Dr. Rakesh Das',
+    name: 'Dr. Arun Sharma',
     role: 'Faculty Advisor — Physics Department',
     avatar:
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&fit=crop&crop=faces',
@@ -34,7 +34,7 @@ const FACULTY: TeamMember[] = [
 const COORDINATORS: TeamMember[] = [
   {
     id: 2,
-    name: 'Urmi Singha',
+    name: 'Riya Mehta',
     role: 'Club President / Student Coordinator',
     avatar:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150&fit=crop&crop=faces',
@@ -43,7 +43,7 @@ const COORDINATORS: TeamMember[] = [
   },
   {
     id: 3,
-    name: '---------',
+    name: 'Karan Patel',
     role: 'Vice President / Student Coordinator',
     avatar:
       'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&h=150&fit=crop&crop=faces',

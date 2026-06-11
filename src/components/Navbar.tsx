@@ -60,14 +60,14 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          {/* JOIN THE CLUB — desktop */}
+          {/* JOIN THE HUB — desktop */}
           <a
             href="https://forms.gle/YOUR_GOOGLE_FORM_ID"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:inline-flex items-center font-heading font-bold text-[10px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-1.5 rounded-sm border border-cyan-500/40 transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
           >
-            Join the Mission
+            Join the Hub
           </a>
 
           {/* Mobile toggle */}
@@ -108,14 +108,14 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              {/* JOIN THE CLUB — mobile drawer */}
+              {/* JOIN THE HUB — mobile drawer */}
               <a
                 href="https://forms.gle/YOUR_GOOGLE_FORM_ID"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 font-heading font-bold text-[11px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-3 rounded-sm border border-cyan-500/40 text-center transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70"
               >
-                Join the Misson
+                Join the Hub
               </a>
             </div>
           </motion.div>
