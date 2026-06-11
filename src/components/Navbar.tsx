@@ -108,14 +108,14 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              {/* JOIN THE HUB — mobile drawer */}
+              {/* JOIN THE CLUB — mobile drawer */}
               <a
                 href="https://forms.gle/YOUR_GOOGLE_FORM_ID"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 font-heading font-bold text-[11px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-3 rounded-sm border border-cyan-500/40 text-center transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70"
               >
-                Join the Hub
+                Join the Misson
               </a>
             </div>
           </motion.div>
