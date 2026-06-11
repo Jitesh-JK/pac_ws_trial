@@ -83,7 +83,7 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="hidden md:inline-flex items-center font-heading font-bold text-[10px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-1.5 rounded-sm border border-cyan-500/40 transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
             >
-              Join the Hub
+              Join the Mission
             </a>
           )}
 
@@ -134,7 +134,7 @@ export default function Navbar() {
                   rel="noopener noreferrer"
                   className="mt-3 font-heading font-bold text-[11px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-3 rounded-sm border border-cyan-500/40 text-center transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70"
                 >
-                  Join the Hub
+                  Join the Mission
                 </a>
               )}
             </div>
