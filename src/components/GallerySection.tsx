@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { GALLERY_IMAGES as _GALLERY_IMAGES, FILTER_TABS as _FILTER_TABS } from '../siteData.js';
 
 type FilterKey = 'ALL' | 'REP_MEDLEY' | 'SKY_CAMP' | 'LAB_CALIBRATION';
 
@@ -16,164 +17,8 @@ interface GalleryImage {
   time: string;
 }
 
-const GALLERY_IMAGES: GalleryImage[] = [
-  /* ── REP_MEDLEY ── */
-  {
-    id: 1,
-    category: 'REP_MEDLEY',
-    src: 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=700',
-    title: 'Andromeda Survey Data',
-    frameId: 'LOG_01',
-    meta: 'SETUP_RAW',
-    tracking: '12.22 KMB',
-    height: '3.92',
-    track: '27.20°',
-    time: '6.73 kms',
-  },
-  {
-    id: 2,
-    category: 'REP_MEDLEY',
-    src: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&w=700',
-    title: 'Nebula Presentation Render',
-    frameId: 'LOG_02',
-    meta: 'SETUP_RAW',
-    tracking: '08.11 KMB',
-    height: '5.17',
-    track: '19.44°',
-    time: '4.22 kms',
-  },
-  {
-    id: 3,
-    category: 'REP_MEDLEY',
-    src: 'https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&w=700',
-    title: 'Milky Way Slide Capture',
-    frameId: 'LOG_03',
-    meta: 'MEDLEY_EDIT',
-    tracking: '15.90 KMB',
-    height: '2.88',
-    track: '33.10°',
-    time: '5.54 kms',
-  },
-  {
-    id: 4,
-    category: 'REP_MEDLEY',
-    src: 'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&w=700',
-    title: 'Deep Field Rep Session',
-    frameId: 'LOG_04',
-    meta: 'MEDLEY_EDIT',
-    tracking: '21.05 KMB',
-    height: '7.44',
-    track: '41.09°',
-    time: '8.01 kms',
-  },
-
-  /* ── SKY_CAMP ── */
-  {
-    id: 5,
-    category: 'SKY_CAMP',
-    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=700',
-    title: 'Field Trip to Mauna Kea',
-    frameId: 'LOG_05',
-    meta: 'SKY_CAMP',
-    tracking: '12.22 KMB',
-    height: '3.92',
-    track: '27.20°',
-    time: '6.73 kms',
-  },
-  {
-    id: 6,
-    category: 'SKY_CAMP',
-    src: 'https://images.unsplash.com/photo-1446941611757-91d2c3bd3d45?q=80&w=700',
-    title: 'Mountain Night Observation',
-    frameId: 'LOG_06',
-    meta: 'SKY_CAMP',
-    tracking: '09.34 KMB',
-    height: '4.60',
-    track: '22.88°',
-    time: '3.91 kms',
-  },
-  {
-    id: 7,
-    category: 'SKY_CAMP',
-    src: 'https://images.unsplash.com/photo-1532978379173-523e16f371f2?q=80&w=700',
-    title: 'Dark Sky Reserve Log',
-    frameId: 'LOG_07',
-    meta: 'FIELD_RAW',
-    tracking: '16.78 KMB',
-    height: '6.05',
-    track: '30.55°',
-    time: '7.22 kms',
-  },
-  {
-    id: 8,
-    category: 'SKY_CAMP',
-    src: 'https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?q=80&w=700',
-    title: 'Horizon Transit Capture',
-    frameId: 'LOG_08',
-    meta: 'FIELD_RAW',
-    tracking: '11.44 KMB',
-    height: '2.30',
-    track: '18.70°',
-    time: '5.10 kms',
-  },
-
-  /* ── LAB_CALIBRATION ── */
-  {
-    id: 9,
-    category: 'LAB_CALIBRATION',
-    src: 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=700',
-    title: 'Exoplanet Simulation Data',
-    frameId: 'LOG_09',
-    meta: 'CALIB_SET',
-    tracking: '23.18 KMB',
-    height: '9.12',
-    track: '44.60°',
-    time: '10.33 kms',
-  },
-  {
-    id: 10,
-    category: 'LAB_CALIBRATION',
-    src: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?q=80&w=700',
-    title: 'Lunar Surface Analysis',
-    frameId: 'LOG_10',
-    meta: 'CALIB_SET',
-    tracking: '07.55 KMB',
-    height: '1.44',
-    track: '12.90°',
-    time: '2.88 kms',
-  },
-  {
-    id: 11,
-    category: 'LAB_CALIBRATION',
-    src: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=700',
-    title: 'Orbital Telemetry Pass',
-    frameId: 'LOG_11',
-    meta: 'SCOPE_CAL',
-    tracking: '18.90 KMB',
-    height: '5.77',
-    track: '36.44°',
-    time: '6.90 kms',
-  },
-  {
-    id: 12,
-    category: 'LAB_CALIBRATION',
-    src: 'https://images.unsplash.com/photo-1504893524553-b855bce32c67?q=80&w=700',
-    title: 'Atmosphere Edge Scan',
-    frameId: 'LOG_12',
-    meta: 'SCOPE_CAL',
-    tracking: '14.02 KMB',
-    height: '4.11',
-    track: '25.03°',
-    time: '4.58 kms',
-  },
-];
-
-const FILTER_TABS: { key: FilterKey; label: string }[] = [
-  { key: 'ALL', label: '[ ALL LOGS ]' },
-  { key: 'REP_MEDLEY', label: '[ 26/01 // REP_MEDLEY ]' },
-  { key: 'SKY_CAMP', label: '[ 12/02 // SKY_CAMP ]' },
-  { key: 'LAB_CALIBRATION', label: '[ 05/03 // LAB_CALIBRATION ]' },
-];
+const GALLERY_IMAGES = _GALLERY_IMAGES as GalleryImage[];
+const FILTER_TABS: { key: FilterKey; label: string }[] = _FILTER_TABS as { key: FilterKey; label: string }[];
 
 /* ── Laser line draw animation ── */
 const lineDraw = {
@@ -368,7 +213,7 @@ export default function GallerySection() {
               return (
                 <button
                   key={tab.key}
-                  onClick={() => setActiveFilter(tab.key)}
+                  onClick={() => setActiveFilter(tab.key as FilterKey)}
                   className="relative font-heading text-[11px] font-semibold tracking-[0.15em] uppercase px-4 py-2 rounded-lg transition-all duration-300"
                   style={{
                     color: isActive ? 'rgb(0,212,255)' : 'rgba(255,255,255,0.45)',

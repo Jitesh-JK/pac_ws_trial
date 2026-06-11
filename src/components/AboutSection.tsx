@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Telescope, Users, FlaskConical, BookMarked } from 'lucide-react';
+import { ABOUT_CARDS, ABOUT_METRICS } from '../siteData.js';
+
+const ICON_LOOKUP: Record<string, React.ElementType> = {
+  Telescope,
+  Users,
+  FlaskConical,
+  BookMarked,
+};
 
 /* ── Fade-up animation variant ── */
 const fadeUp = {
@@ -31,29 +39,6 @@ const metricReveal = {
   }),
 };
 
-/* ── Flip card data ── */
-const CARDS = [
-  {
-    icon: Telescope,
-    front: 'Stargazing Expedition Access',
-    back: 'Receive training and coordination support for state and national level observational field trips.',
-  },
-  {
-    icon: Users,
-    front: 'Scientific Connect',
-    back: 'Regular guest lectures and webinars to explore inner research and astrophysics at top technical institutions.',
-  },
-  {
-    icon: FlaskConical,
-    front: 'Hands-on Telescope Labs',
-    back: 'Weekly operational sessions for lens transit analysis, telemetry processing, and applied geometry study.',
-  },
-  {
-    icon: BookMarked,
-    front: 'Research Mentorship',
-    back: 'Senior-Junior mentorship pipeline to guide you through your physics curriculum and space science projects.',
-  },
-];
 
 /* ── Single flip card ── */
 function FlipCard({
@@ -247,11 +232,7 @@ export default function AboutSection() {
           viewport={{ once: true, margin: '-40px' }}
           className="flex flex-wrap items-center justify-center gap-0 mb-20"
         >
-          {[
-            { value: 'Est. 2025', label: 'Founded', delay: 0.1 },
-            { value: '30+', label: 'Sky Observers', delay: 0.2 },
-            { value: '80+', label: 'Deep Sky Projects', delay: 0.3 },
-          ].map((metric, idx) => (
+          {ABOUT_METRICS.map((metric, idx) => (
             <motion.div
               key={metric.label}
               custom={metric.delay}
@@ -295,10 +276,10 @@ export default function AboutSection() {
 
         {/* ── Flip card grid ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {CARDS.map((card, idx) => (
+          {ABOUT_CARDS.map((card, idx) => (
             <FlipCard
               key={card.front}
-              icon={card.icon}
+              icon={ICON_LOOKUP[card.iconName]}
               front={card.front}
               back={card.back}
               delay={idx * 0.1}

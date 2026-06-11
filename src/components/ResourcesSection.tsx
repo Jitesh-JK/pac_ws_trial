@@ -1,132 +1,32 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDownToLine, Linkedin, Mail, Phone, Network, CalendarDays } from 'lucide-react';
+import {
+  SESSIONS as _SESSIONS,
+  MONTHLY_PAPERS as _MONTHLY_PAPERS,
+  CONTACT,
+} from '../siteData.js';
 
 /* ─────────────────────────────────────────────
-   Data — Session tiles (left column)
+   Types
 ───────────────────────────────────────────── */
-const SESSIONS = [
-  {
-    id: 1,
-    title: 'Session 06 // Pulsar Timing & Dispersion Measures',
-    img: 'https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&w=700',
-    tags: ['PPTX', 'PDF'],
-    date: 'DEC 2025',
-  },
-  {
-    id: 2,
-    title: 'Session 05 // Spectroscopy & Emission Line Analysis',
-    img: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&w=700',
-    tags: ['PPTX', 'PDF'],
-    date: 'NOV 2025',
-  },
-  {
-    id: 3,
-    title: 'Session 04 // Telescope Optics & Focal Length Ratios',
-    img: 'https://images.unsplash.com/photo-1532978379173-523e16f371f2?q=80&w=700',
-    tags: ['PDF'],
-    date: 'OCT 2025',
-  },
-  {
-    id: 4,
-    title: 'Session 03 // Celestial Coordinate Systems & Sky Mapping',
-    img: 'https://images.unsplash.com/photo-1446941611757-91d2c3bd3d45?q=80&w=700',
-    tags: ['PPTX', 'PDF'],
-    date: 'SEP 2025',
-  },
-  {
-    id: 5,
-    title: "Session 02 // Kepler's Laws & Orbital Mechanics",
-    img: 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=700',
-    tags: ['PDF'],
-    date: 'AUG 2025',
-  },
-  {
-    id: 6,
-    title: 'Session 01 // Introduction to Astrophysics & PAC Charter',
-    img: 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=700',
-    tags: ['PPTX'],
-    date: 'JUL 2025',
-  },
-];
+interface Session {
+  id: number;
+  title: string;
+  img: string;
+  tags: string[];
+  date: string;
+}
 
-/* ─────────────────────────────────────────────
-   Data — Calendar tiles (right column, 12 months)
-───────────────────────────────────────────── */
-const MONTHLY_PAPERS = [
-  {
-    id: 1,
-    month: 'DEC',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&w=400',
-  },
-  {
-    id: 2,
-    month: 'NOV',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=400',
-  },
-  {
-    id: 3,
-    month: 'OCT',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=400',
-  },
-  {
-    id: 4,
-    month: 'SEP',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?q=80&w=400',
-  },
-  {
-    id: 5,
-    month: 'AUG',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?q=80&w=400',
-  },
-  {
-    id: 6,
-    month: 'JUL',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&w=400',
-  },
-  {
-    id: 7,
-    month: 'JUN',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&w=400',
-  },
-  {
-    id: 8,
-    month: 'MAY',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1504893524553-b855bce32c67?q=80&w=400',
-  },
-  {
-    id: 9,
-    month: 'APR',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=400',
-  },
-  {
-    id: 10,
-    month: 'MAR',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1446941611757-91d2c3bd3d45?q=80&w=400',
-  },
-  {
-    id: 11,
-    month: 'FEB',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1532978379173-523e16f371f2?q=80&w=400',
-  },
-  {
-    id: 12,
-    month: 'JAN',
-    year: '2025',
-    img: 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=400',
-  },
-];
+interface MonthlyPaper {
+  id: number;
+  month: string;
+  year: string;
+  img: string;
+}
+
+const SESSIONS = _SESSIONS as Session[];
+const MONTHLY_PAPERS = _MONTHLY_PAPERS as MonthlyPaper[];
 
 /* ─────────────────────────────────────────────
    Animation variants
@@ -211,7 +111,6 @@ function ColumnHeader({
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className="flex items-center gap-3 mb-5"
     >
-      {/* Icon badge */}
       <div
         className="w-10 h-10 flex items-center justify-center rounded-lg flex-shrink-0"
         style={{
@@ -222,20 +121,17 @@ function ColumnHeader({
       >
         <Icon size={18} strokeWidth={1.6} style={{ color: `rgba(${accentColor}, 0.9)` }} />
       </div>
-
-      {/* Pipe separator */}
       <div className="w-px h-5 bg-white/15 flex-shrink-0" />
-
-      {/* Label */}
       <span
         className="font-heading text-xs font-bold tracking-[0.22em] uppercase"
         style={{ color: 'rgba(255,255,255,0.6)' }}
       >
         {label}
       </span>
-
-      {/* Full-width hairline */}
-      <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, rgba(${accentColor}, 0.25), transparent)` }} />
+      <div
+        className="flex-1 h-px"
+        style={{ background: `linear-gradient(to right, rgba(${accentColor}, 0.25), transparent)` }}
+      />
     </motion.div>
   );
 }
@@ -243,7 +139,7 @@ function ColumnHeader({
 /* ─────────────────────────────────────────────
    Session image tile (left column)
 ───────────────────────────────────────────── */
-function SessionTile({ session, delay }: { session: (typeof SESSIONS)[number]; delay: number }) {
+function SessionTile({ session, delay }: { session: Session; delay: number }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -263,7 +159,6 @@ function SessionTile({ session, delay }: { session: (typeof SESSIONS)[number]; d
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Background image */}
       <img
         src={session.img}
         alt={session.title}
@@ -273,13 +168,9 @@ function SessionTile({ session, delay }: { session: (typeof SESSIONS)[number]; d
           transition: 'transform 0.5s ease',
         }}
       />
-
-      {/* Top-right download button */}
       <div className="absolute top-2.5 right-2.5 z-20">
         <TileDownloadBtn accentRgb="0,212,255" />
       </div>
-
-      {/* Gradient overlay */}
       <div
         className="absolute inset-0"
         style={{
@@ -287,8 +178,6 @@ function SessionTile({ session, delay }: { session: (typeof SESSIONS)[number]; d
             'linear-gradient(to top, rgba(2,2,8,0.97) 0%, rgba(2,2,8,0.7) 45%, rgba(2,2,8,0.15) 80%, transparent 100%)',
         }}
       />
-
-      {/* Bottom content */}
       <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
         <p className="font-heading font-bold text-sm tracking-[0.07em] text-white leading-tight line-clamp-2 mb-2">
           {session.title}
@@ -321,13 +210,7 @@ function SessionTile({ session, delay }: { session: (typeof SESSIONS)[number]; d
 /* ─────────────────────────────────────────────
    Calendar month tile (right column)
 ───────────────────────────────────────────── */
-function CalendarTile({
-  paper,
-  delay,
-}: {
-  paper: (typeof MONTHLY_PAPERS)[number];
-  delay: number;
-}) {
+function CalendarTile({ paper, delay }: { paper: MonthlyPaper; delay: number }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -348,7 +231,6 @@ function CalendarTile({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Month header */}
       <div className="px-2.5 pt-2.5 pb-1.5 flex items-baseline gap-1.5 flex-shrink-0">
         <span className="font-heading font-bold text-sm tracking-[0.12em] text-white/90 leading-none">
           {paper.month}
@@ -357,8 +239,6 @@ function CalendarTile({
           {paper.year}
         </span>
       </div>
-
-      {/* Scientific visualization image */}
       <div className="relative overflow-hidden flex-shrink-0" style={{ aspectRatio: '1/1' }}>
         <img
           src={paper.img}
@@ -369,14 +249,13 @@ function CalendarTile({
             transition: 'transform 0.45s ease',
           }}
         />
-        {/* Subtle vignette */}
         <div
           className="absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(2,2,8,0.5) 100%)' }}
+          style={{
+            background: 'radial-gradient(ellipse at center, transparent 50%, rgba(2,2,8,0.5) 100%)',
+          }}
         />
       </div>
-
-      {/* Download footer */}
       <div
         className="flex items-center gap-1.5 px-2.5 py-2 flex-shrink-0"
         style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
@@ -384,11 +263,17 @@ function CalendarTile({
         <ArrowDownToLine
           size={11}
           strokeWidth={2.2}
-          style={{ color: hovered ? 'rgba(0,255,148,0.9)' : 'rgba(0,255,148,0.55)', transition: 'color 0.3s ease' }}
+          style={{
+            color: hovered ? 'rgba(0,255,148,0.9)' : 'rgba(0,255,148,0.55)',
+            transition: 'color 0.3s ease',
+          }}
         />
         <span
           className="font-heading text-[9px] font-semibold tracking-[0.16em] uppercase"
-          style={{ color: hovered ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.35)', transition: 'color 0.3s ease' }}
+          style={{
+            color: hovered ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.35)',
+            transition: 'color 0.3s ease',
+          }}
         >
           Monthly Paper
         </span>
@@ -464,7 +349,6 @@ function ContactBtn({
 export default function ResourcesSection() {
   return (
     <section id="resources" className="relative pt-28 pb-14 px-6 overflow-hidden">
-      {/* Radial glow accent */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -478,7 +362,6 @@ export default function ResourcesSection() {
 
         {/* ── Two-column split ── */}
         <div className="flex flex-col lg:flex-row gap-6 mb-20">
-
           {/* ── Left column — Meeting Archive Vault ── */}
           <div className="flex-1 min-w-0">
             <ColumnHeader icon={Network} label="Meeting Archive Vault" accentColor="0,212,255" />
@@ -542,19 +425,15 @@ export default function ResourcesSection() {
               Contact and Systems Interface
             </p>
             <p className="font-heading text-[11px] tracking-[0.18em] uppercase text-white/35">
-              Jitesh Kumar Gouda // Systems Handler
+              {CONTACT.name} // {CONTACT.title}
             </p>
           </div>
 
           {/* Right — Contact buttons */}
           <div className="flex items-center gap-3">
-            <ContactBtn
-              href="https://linkedin.com/in/jitesh-kumar-gouda"
-              icon={Linkedin}
-              label="LinkedIn"
-            />
-            <ContactBtn href="mailto:jitesh_24cse239@gkciet.ac.in" icon={Mail} label="Email" />
-            <ContactBtn href="tel:+91 9485170200" icon={Phone} label="Phone" />
+            <ContactBtn href={CONTACT.linkedin} icon={Linkedin} label="LinkedIn" />
+            <ContactBtn href={`mailto:${CONTACT.email}`} icon={Mail} label="Email" />
+            <ContactBtn href={`tel:${CONTACT.phone}`} icon={Phone} label="Phone" />
           </div>
         </motion.div>
 

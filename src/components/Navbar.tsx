@@ -1,15 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-
-const NAV_LINKS = [
-  { label: 'HOME', href: '#home' },
-  { label: 'ABOUT', href: '#about' },
-  { label: 'EVENTS', href: '#events' },
-  { label: 'GALLERY', href: '#gallery' },
-  { label: 'TEAM', href: '#team' },
-  { label: 'RESOURCES', href: '#resources' },
-];
+import { NAV_LINKS, JOIN_HUB_URL } from '../siteData.js';
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -62,7 +54,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           {/* JOIN THE HUB — desktop */}
           <a
-            href="https://forms.gle/YOUR_GOOGLE_FORM_ID"
+            href={JOIN_HUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:inline-flex items-center font-heading font-bold text-[10px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-1.5 rounded-sm border border-cyan-500/40 transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
@@ -110,7 +102,7 @@ export default function Navbar() {
               ))}
               {/* JOIN THE HUB — mobile drawer */}
               <a
-                href="https://forms.gle/YOUR_GOOGLE_FORM_ID"
+                href={JOIN_HUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 font-heading font-bold text-[11px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-3 rounded-sm border border-cyan-500/40 text-center transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70"

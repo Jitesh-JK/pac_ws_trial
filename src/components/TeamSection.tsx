@@ -1,10 +1,16 @@
 import { motion } from 'framer-motion';
 import { Linkedin, Mail, Phone } from 'lucide-react';
+import {
+  FACULTY as _FACULTY,
+  COORDINATORS as _COORDINATORS,
+  CORE_OPS as _CORE_OPS,
+  GENERAL_MEMBERS as _GENERAL_MEMBERS,
+} from '../siteData.js';
 
 /* ─────────────────────────────────────────────
    Types
 ───────────────────────────────────────────── */
-type ContactLevel = 'full' | 'standard'; // full = LinkedIn + Gmail + Phone; standard = LinkedIn + Gmail
+type ContactLevel = 'full' | 'standard';
 type RingTier = 'cyan' | 'green' | 'muted';
 
 interface TeamMember {
@@ -16,137 +22,10 @@ interface TeamMember {
   ring: RingTier;
 }
 
-/* ─────────────────────────────────────────────
-   Team data
-───────────────────────────────────────────── */
-const FACULTY: TeamMember[] = [
-  {
-    id: 1,
-    name: 'Dr. Arun Sharma',
-    role: 'Faculty Advisor — Physics Department',
-    avatar:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'full',
-    ring: 'cyan',
-  },
-];
-
-const COORDINATORS: TeamMember[] = [
-  {
-    id: 2,
-    name: 'Riya Mehta',
-    role: 'Club President / Student Coordinator',
-    avatar:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'full',
-    ring: 'cyan',
-  },
-  {
-    id: 3,
-    name: 'Karan Patel',
-    role: 'Vice President / Student Coordinator',
-    avatar:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'full',
-    ring: 'cyan',
-  },
-];
-
-const CORE_OPS: TeamMember[] = [
-  {
-    id: 4,
-    name: 'Arjun Nair',
-    role: 'Website Developer & Tech Lead',
-    avatar:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'full',
-    ring: 'green',
-  },
-  {
-    id: 5,
-    name: 'Priya Joshi',
-    role: 'Event Operations Lead',
-    avatar:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'standard',
-    ring: 'muted',
-  },
-  {
-    id: 6,
-    name: 'Rahul Singh',
-    role: 'Outreach & Partnerships',
-    avatar:
-      'https://images.unsplash.com/photo-1463453091185-61582044d556?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'standard',
-    ring: 'muted',
-  },
-  {
-    id: 7,
-    name: 'Sneha Rao',
-    role: 'Media & Visual Design',
-    avatar:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'standard',
-    ring: 'muted',
-  },
-];
-
-const GENERAL_MEMBERS: TeamMember[] = [
-  {
-    id: 8,
-    name: 'Ankit Verma',
-    role: 'Sky Observer — Deep Field',
-    avatar:
-      'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'standard',
-    ring: 'muted',
-  },
-  {
-    id: 9,
-    name: 'Divya Krishnan',
-    role: 'Astrophotography Lead',
-    avatar:
-      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'standard',
-    ring: 'muted',
-  },
-  {
-    id: 10,
-    name: 'Sameer Gupta',
-    role: 'Telescope Operations',
-    avatar:
-      'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'standard',
-    ring: 'muted',
-  },
-  {
-    id: 11,
-    name: 'Neha Desai',
-    role: 'Theoretical Physics Track',
-    avatar:
-      'https://images.unsplash.com/photo-1546961342-ea5f62d851f3?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'standard',
-    ring: 'muted',
-  },
-  {
-    id: 12,
-    name: 'Varun Iyer',
-    role: 'Data Analysis & Python',
-    avatar:
-      'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'standard',
-    ring: 'muted',
-  },
-  {
-    id: 13,
-    name: 'Pooja Reddy',
-    role: 'Observational Log Keeper',
-    avatar:
-      'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=150&h=150&fit=crop&crop=faces',
-    contacts: 'standard',
-    ring: 'muted',
-  },
-];
+const FACULTY = _FACULTY as TeamMember[];
+const COORDINATORS = _COORDINATORS as TeamMember[];
+const CORE_OPS = _CORE_OPS as TeamMember[];
+const GENERAL_MEMBERS = _GENERAL_MEMBERS as TeamMember[];
 
 /* ─────────────────────────────────────────────
    Ring glow styles per tier
@@ -231,13 +110,7 @@ function SectionHeader({ label }: { label: string }) {
 /* ─────────────────────────────────────────────
    Sub-section label row
 ───────────────────────────────────────────── */
-function SubHeader({
-  label,
-  index,
-}: {
-  label: string;
-  index: string;
-}) {
+function SubHeader({ label, index }: { label: string; index: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -16 }}
@@ -264,13 +137,7 @@ function SubHeader({
 /* ─────────────────────────────────────────────
    Horizontal member card
 ───────────────────────────────────────────── */
-function MemberCard({
-  member,
-  delay,
-}: {
-  member: TeamMember;
-  delay: number;
-}) {
+function MemberCard({ member, delay }: { member: TeamMember; delay: number }) {
   return (
     <motion.div
       custom={delay}
@@ -315,7 +182,6 @@ function MemberCard({
 
         {/* ── Contact icons ── */}
         <div className="flex items-center gap-2.5 mt-2.5">
-          {/* LinkedIn */}
           <button
             className="group flex items-center justify-center w-6 h-6 rounded transition-all duration-200"
             style={{ color: 'rgba(255,255,255,0.35)' }}
@@ -330,7 +196,6 @@ function MemberCard({
             <Linkedin size={13} strokeWidth={1.8} />
           </button>
 
-          {/* Gmail */}
           <button
             className="flex items-center justify-center w-6 h-6 rounded transition-all duration-200"
             style={{ color: 'rgba(255,255,255,0.35)' }}
@@ -345,7 +210,6 @@ function MemberCard({
             <Mail size={13} strokeWidth={1.8} />
           </button>
 
-          {/* Phone — only for 'full' contact level */}
           {member.contacts === 'full' && (
             <button
               className="flex items-center justify-center w-6 h-6 rounded transition-all duration-200"
@@ -394,7 +258,6 @@ function MemberGrid({
 export default function TeamSection() {
   return (
     <section id="team" className="relative py-28 px-6 overflow-hidden">
-      {/* Radial glow accent */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -406,7 +269,6 @@ export default function TeamSection() {
       <div className="relative z-10 max-w-6xl mx-auto">
         <SectionHeader label="04 // Command Crew" />
 
-        {/* ── 1. Faculty Coordinator ── */}
         <SubHeader index="01" label="Faculty Coordinator" />
         <MemberGrid
           members={FACULTY}
@@ -414,7 +276,6 @@ export default function TeamSection() {
           startDelay={0}
         />
 
-        {/* ── 2. Student Representative Leads ── */}
         <SubHeader index="02" label="Student Representative Leads" />
         <MemberGrid
           members={COORDINATORS}
@@ -422,7 +283,6 @@ export default function TeamSection() {
           startDelay={0}
         />
 
-        {/* ── 3. Core Operations & Web Dev ── */}
         <SubHeader index="03" label="Core Operations & Web Dev" />
         <MemberGrid
           members={CORE_OPS}
@@ -430,7 +290,6 @@ export default function TeamSection() {
           startDelay={0}
         />
 
-        {/* ── 4. Active Core Members ── */}
         <SubHeader index="04" label="Active Core Members" />
         <MemberGrid
           members={GENERAL_MEMBERS}
