@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDownToLine, Linkedin, Mail, Phone, Network, CalendarDays } from 'lucide-react';
+import { ArrowDownToLine, Linkedin, Mail, Phone, Network, CalendarDays, Github } from 'lucide-react';
 import {
   SESSIONS as _SESSIONS,
   MONTHLY_PAPERS as _MONTHLY_PAPERS,
@@ -10,11 +10,16 @@ import {
 /* ─────────────────────────────────────────────
    Types
 ───────────────────────────────────────────── */
+interface DownloadLinks {
+  pptx?: string;
+  pdf?: string;
+}
+
 interface Session {
   id: number;
   title: string;
-  img: string;
-  tags: string[];
+  img?: string;
+  downloadLinks?: DownloadLinks;
   date: string;
 }
 
@@ -22,7 +27,8 @@ interface MonthlyPaper {
   id: number;
   month: string;
   year: string;
-  img: string;
+  img?: string;
+  abstract?: string;
 }
 
 const SESSIONS = _SESSIONS as Session[];
@@ -141,6 +147,8 @@ function ColumnHeader({
 ───────────────────────────────────────────── */
 function SessionTile({ session, delay }: { session: Session; delay: number }) {
   const [hovered, setHovered] = useState(false);
+  const hasImage = !!session.img;
+  const hasDownloads = session.downloadLinks && Object.keys(session.downloadLinks).length > 0;
 
   return (
     <motion.div
@@ -155,27 +163,40 @@ function SessionTile({ session, delay }: { session: Session; delay: number }) {
         border: hovered ? '1px solid rgba(0,212,255,0.55)' : '1px solid rgba(0,212,255,0.2)',
         boxShadow: hovered ? '0 0 24px rgba(0,212,255,0.18)' : 'none',
         transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+        background: hasImage ? 'transparent' : 'rgba(0,212,255,0.03)',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <img
-        src={session.img}
-        alt={session.title}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{
-          transform: hovered ? 'scale(1.07)' : 'scale(1)',
-          transition: 'transform 0.5s ease',
-        }}
-      />
-      <div className="absolute top-2.5 right-2.5 z-20">
-        <TileDownloadBtn accentRgb="0,212,255" />
-      </div>
+      {hasImage ? (
+        <img
+          src={session.img}
+          alt={session.title}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            transform: hovered ? 'scale(1.07)' : 'scale(1)',
+            transition: 'transform 0.5s ease',
+          }}
+        />
+      ) : (
+        <div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ background: 'radial-gradient(ellipse at center, rgba(0,212,255,0.08) 0%, transparent 70%)' }}
+        >
+          <Network size={32} strokeWidth={1} style={{ color: 'rgba(255,255,255,0.12)' }} />
+        </div>
+      )}
+      {hasDownloads && (
+        <div className="absolute top-2.5 right-2.5 z-20">
+          <TileDownloadBtn links={session.downloadLinks!} accentRgb="0,212,255" />
+        </div>
+      )}
       <div
         className="absolute inset-0"
         style={{
-          background:
-            'linear-gradient(to top, rgba(2,2,8,0.97) 0%, rgba(2,2,8,0.7) 45%, rgba(2,2,8,0.15) 80%, transparent 100%)',
+          background: hasImage
+            ? 'linear-gradient(to top, rgba(2,2,8,0.97) 0%, rgba(2,2,8,0.7) 45%, rgba(2,2,8,0.15) 80%, transparent 100%)'
+            : 'linear-gradient(to top, rgba(2,2,8,0.95) 0%, rgba(2,2,8,0.8) 50%, transparent 100%)',
         }}
       />
       <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
@@ -184,19 +205,36 @@ function SessionTile({ session, delay }: { session: Session; delay: number }) {
         </p>
         <div className="flex items-center justify-between">
           <div className="flex gap-1.5">
-            {session.tags.map((tag) => (
-              <span
-                key={tag}
-                className="font-heading text-[9px] font-bold tracking-[0.18em] px-1.5 py-0.5 rounded"
+            {session.downloadLinks?.pptx && (
+              <a
+                href={session.downloadLinks.pptx}
+                download
+                onClick={(e) => e.stopPropagation()}
+                className="font-heading text-[9px] font-bold tracking-[0.18em] px-1.5 py-0.5 rounded transition-all duration-200 hover:bg-cyan-500/20"
                 style={{
                   background: 'rgba(0,212,255,0.09)',
                   border: '1px solid rgba(0,212,255,0.25)',
                   color: 'rgba(0,212,255,0.8)',
                 }}
               >
-                {tag}
-              </span>
-            ))}
+                PPTX
+              </a>
+            )}
+            {session.downloadLinks?.pdf && (
+              <a
+                href={session.downloadLinks.pdf}
+                download
+                onClick={(e) => e.stopPropagation()}
+                className="font-heading text-[9px] font-bold tracking-[0.18em] px-1.5 py-0.5 rounded transition-all duration-200 hover:bg-cyan-500/20"
+                style={{
+                  background: 'rgba(0,212,255,0.09)',
+                  border: '1px solid rgba(0,212,255,0.25)',
+                  color: 'rgba(0,212,255,0.8)',
+                }}
+              >
+                PDF
+              </a>
+            )}
           </div>
           <span className="font-heading text-[9px] tracking-[0.14em] text-white/35 ml-2">
             {session.date}
@@ -212,6 +250,7 @@ function SessionTile({ session, delay }: { session: Session; delay: number }) {
 ───────────────────────────────────────────── */
 function CalendarTile({ paper, delay }: { paper: MonthlyPaper; delay: number }) {
   const [hovered, setHovered] = useState(false);
+  const hasImage = !!paper.img;
 
   return (
     <motion.div
@@ -240,22 +279,40 @@ function CalendarTile({ paper, delay }: { paper: MonthlyPaper; delay: number }) 
         </span>
       </div>
       <div className="relative overflow-hidden flex-shrink-0" style={{ aspectRatio: '1/1' }}>
-        <img
-          src={paper.img}
-          alt={`${paper.month} ${paper.year} research`}
-          className="w-full h-full object-cover"
-          style={{
-            transform: hovered ? 'scale(1.08)' : 'scale(1)',
-            transition: 'transform 0.45s ease',
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse at center, transparent 50%, rgba(2,2,8,0.5) 100%)',
-          }}
-        />
+        {hasImage ? (
+          <>
+            <img
+              src={paper.img}
+              alt={`${paper.month} ${paper.year} research`}
+              className="w-full h-full object-cover"
+              style={{
+                transform: hovered ? 'scale(1.08)' : 'scale(1)',
+                transition: 'transform 0.45s ease',
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: 'radial-gradient(ellipse at center, transparent 50%, rgba(2,2,8,0.5) 100%)',
+              }}
+            />
+          </>
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ background: 'radial-gradient(ellipse at center, rgba(0,255,148,0.06) 0%, transparent 70%)' }}
+          >
+            <CalendarDays size={20} strokeWidth={1} style={{ color: 'rgba(255,255,255,0.12)' }} />
+          </div>
+        )}
       </div>
+      {paper.abstract && (
+        <div className="px-2.5 py-1.5 flex-shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+          <p className="font-heading text-[8px] tracking-[0.08em] text-white/40 line-clamp-2 leading-relaxed">
+            {paper.abstract}
+          </p>
+        </div>
+      )}
       <div
         className="flex items-center gap-1.5 px-2.5 py-2 flex-shrink-0"
         style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
@@ -285,11 +342,16 @@ function CalendarTile({ paper, delay }: { paper: MonthlyPaper; delay: number }) 
 /* ─────────────────────────────────────────────
    Tile download button (top-right of session tile)
 ───────────────────────────────────────────── */
-function TileDownloadBtn({ accentRgb }: { accentRgb: string }) {
+function TileDownloadBtn({ links, accentRgb }: { links: DownloadLinks; accentRgb: string }) {
   const [hovered, setHovered] = useState(false);
+  const firstLink = links.pptx || links.pdf;
+
+  if (!firstLink) return null;
 
   return (
-    <button
+    <a
+      href={firstLink}
+      download
       aria-label="Download"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -303,7 +365,7 @@ function TileDownloadBtn({ accentRgb }: { accentRgb: string }) {
       }}
     >
       <ArrowDownToLine size={13} strokeWidth={2} />
-    </button>
+    </a>
   );
 }
 
@@ -429,11 +491,12 @@ export default function ResourcesSection() {
             </p>
           </div>
 
-          {/* Right — Contact buttons */}
+          {/* Right — Contact buttons (conditionally rendered) */}
           <div className="flex items-center gap-3">
-            <ContactBtn href={CONTACT.linkedin} icon={Linkedin} label="LinkedIn" />
-            <ContactBtn href={`mailto:${CONTACT.email}`} icon={Mail} label="Email" />
-            <ContactBtn href={`tel:${CONTACT.phone}`} icon={Phone} label="Phone" />
+            {CONTACT.linkedin && <ContactBtn href={CONTACT.linkedin} icon={Linkedin} label="LinkedIn" />}
+            {CONTACT.github && <ContactBtn href={CONTACT.github} icon={Github} label="GitHub" />}
+            {CONTACT.email && <ContactBtn href={`mailto:${CONTACT.email}`} icon={Mail} label="Email" />}
+            {CONTACT.phone && <ContactBtn href={`tel:${CONTACT.phone}`} icon={Phone} label="Phone" />}
           </div>
         </motion.div>
 

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Linkedin, Mail, Phone } from 'lucide-react';
+import { Linkedin, Mail, Github } from 'lucide-react';
 import {
   FACULTY as _FACULTY,
   COORDINATORS as _COORDINATORS,
@@ -10,16 +10,22 @@ import {
 /* ─────────────────────────────────────────────
    Types
 ───────────────────────────────────────────── */
-type ContactLevel = 'full' | 'standard';
 type RingTier = 'cyan' | 'green' | 'muted';
+
+interface MemberLinks {
+  linkedin?: string;
+  email?: string;
+  github?: string;
+}
 
 interface TeamMember {
   id: number;
   name: string;
   role: string;
   avatar: string;
-  contacts: ContactLevel;
   ring: RingTier;
+  tag?: string;
+  links?: MemberLinks;
 }
 
 const FACULTY = _FACULTY as TeamMember[];
@@ -173,59 +179,86 @@ function MemberCard({ member, delay }: { member: TeamMember; delay: number }) {
 
       {/* ── Info block ── */}
       <div className="flex-1 min-w-0">
-        <p className="font-heading font-bold text-sm tracking-[0.06em] text-white leading-tight truncate">
-          {member.name}
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="font-heading font-bold text-sm tracking-[0.06em] text-white leading-tight truncate">
+            {member.name}
+          </p>
+          {member.tag && (
+            <span
+              className="font-heading text-[7px] font-bold tracking-[0.15em] uppercase px-1.5 py-0.5 rounded-sm flex-shrink-0"
+              style={{
+                background: 'rgba(0,212,255,0.12)',
+                color: 'rgba(0,212,255,0.9)',
+                border: '1px solid rgba(0,212,255,0.25)',
+              }}
+            >
+              {member.tag}
+            </span>
+          )}
+        </div>
         <p className="font-heading text-[11px] tracking-[0.07em] text-white/45 mt-0.5 leading-snug line-clamp-2">
           {member.role}
         </p>
 
-        {/* ── Contact icons ── */}
-        <div className="flex items-center gap-2.5 mt-2.5">
-          <button
-            className="group flex items-center justify-center w-6 h-6 rounded transition-all duration-200"
-            style={{ color: 'rgba(255,255,255,0.35)' }}
-            aria-label="LinkedIn"
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.color = 'rgba(0,212,255,0.9)')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)')
-            }
-          >
-            <Linkedin size={13} strokeWidth={1.8} />
-          </button>
+        {/* ── Contact icons (conditionally rendered) ── */}
+        {member.links && (
+          <div className="flex items-center gap-2.5 mt-2.5">
+            {member.links.linkedin && (
+              <a
+                href={member.links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-6 h-6 rounded transition-all duration-200"
+                style={{ color: 'rgba(255,255,255,0.35)' }}
+                aria-label="LinkedIn"
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = 'rgba(0,212,255,0.9)')
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)')
+                }
+              >
+                <Linkedin size={13} strokeWidth={1.8} />
+              </a>
+            )}
 
-          <button
-            className="flex items-center justify-center w-6 h-6 rounded transition-all duration-200"
-            style={{ color: 'rgba(255,255,255,0.35)' }}
-            aria-label="Email"
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.color = 'rgba(0,212,255,0.9)')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)')
-            }
-          >
-            <Mail size={13} strokeWidth={1.8} />
-          </button>
+            {member.links.github && (
+              <a
+                href={member.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-6 h-6 rounded transition-all duration-200"
+                style={{ color: 'rgba(255,255,255,0.35)' }}
+                aria-label="GitHub"
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = 'rgba(0,212,255,0.9)')
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)')
+                }
+              >
+                <Github size={13} strokeWidth={1.8} />
+              </a>
+            )}
 
-          {member.contacts === 'full' && (
-            <button
-              className="flex items-center justify-center w-6 h-6 rounded transition-all duration-200"
-              style={{ color: 'rgba(255,255,255,0.35)' }}
-              aria-label="Phone"
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = 'rgba(0,212,255,0.9)')
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)')
-              }
-            >
-              <Phone size={13} strokeWidth={1.8} />
-            </button>
-          )}
-        </div>
+            {member.links.email && (
+              <a
+                href={`mailto:${member.links.email}`}
+                className="flex items-center justify-center w-6 h-6 rounded transition-all duration-200"
+                style={{ color: 'rgba(255,255,255,0.35)' }}
+                aria-label="Email"
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = 'rgba(0,212,255,0.9)')
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)')
+                }
+              >
+                <Mail size={13} strokeWidth={1.8} />
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );

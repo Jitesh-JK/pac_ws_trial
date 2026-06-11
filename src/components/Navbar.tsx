@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
-import { NAV_LINKS, JOIN_HUB_URL } from '../siteData.js';
+import { Menu, X, Radio } from 'lucide-react';
+import { NAV_LINKS, JOIN_HUB_URL, ANNOUNCEMENT } from '../siteData.js';
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -23,6 +23,29 @@ export default function Navbar() {
         backgroundColor: 'rgba(2, 2, 8, 0.7)',
       }}
     >
+      {/* ── Announcement banner — renders only if ANNOUNCEMENT is set ── */}
+      {ANNOUNCEMENT && (
+        <div
+          className="flex items-center justify-center gap-2 px-4 py-1.5 border-b border-cyan-500/15"
+          style={{ background: 'rgba(0,212,255,0.04)' }}
+        >
+          <Radio
+            size={9}
+            className="text-neon-cyan flex-shrink-0 animate-pulse"
+            strokeWidth={2}
+          />
+          <p className="font-heading text-[9px] tracking-[0.22em] uppercase text-neon-cyan/70 truncate">
+            {ANNOUNCEMENT}
+          </p>
+          <Radio
+            size={9}
+            className="text-neon-cyan flex-shrink-0 animate-pulse"
+            strokeWidth={2}
+          />
+        </div>
+      )}
+
+      {/* ── Main nav row ── */}
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
         <a
           href="#home"
@@ -52,15 +75,17 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          {/* JOIN THE HUB — desktop */}
-          <a
-            href={JOIN_HUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center font-heading font-bold text-[10px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-1.5 rounded-sm border border-cyan-500/40 transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
-          >
-            Join the Hub
-          </a>
+          {/* JOIN THE HUB — only renders if JOIN_HUB_URL is set */}
+          {JOIN_HUB_URL && (
+            <a
+              href={JOIN_HUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:inline-flex items-center font-heading font-bold text-[10px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-1.5 rounded-sm border border-cyan-500/40 transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
+            >
+              Join the Hub
+            </a>
+          )}
 
           {/* Mobile toggle */}
           <button
@@ -73,6 +98,7 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* ── Mobile drawer — top-full adapts to nav height (banner present or not) ── */}
       <AnimatePresence>
         {drawerOpen && (
           <motion.div
@@ -80,7 +106,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden absolute top-16 left-0 right-0 border-b border-white/10 overflow-hidden"
+            className="md:hidden absolute top-full left-0 right-0 border-b border-white/10 overflow-hidden"
             style={{
               backgroundColor: 'rgba(2, 2, 8, 0.95)',
               backdropFilter: 'blur(12px)',
@@ -100,15 +126,17 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              {/* JOIN THE HUB — mobile drawer */}
-              <a
-                href={JOIN_HUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 font-heading font-bold text-[11px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-3 rounded-sm border border-cyan-500/40 text-center transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70"
-              >
-                Join the Hub
-              </a>
+              {/* JOIN THE HUB — mobile, only renders if URL is set */}
+              {JOIN_HUB_URL && (
+                <a
+                  href={JOIN_HUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 font-heading font-bold text-[11px] tracking-[0.18em] uppercase text-cyan-400 px-4 py-3 rounded-sm border border-cyan-500/40 text-center transition-all duration-300 ease-in-out hover:bg-cyan-500/15 hover:border-cyan-400/70"
+                >
+                  Join the Hub
+                </a>
+              )}
             </div>
           </motion.div>
         )}

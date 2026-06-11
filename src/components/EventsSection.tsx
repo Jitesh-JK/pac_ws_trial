@@ -1,7 +1,21 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Satellite, CalendarDays, Navigation } from 'lucide-react';
-import { EVENTS } from '../siteData.js';
+import { EVENTS as _EVENTS } from '../siteData.js';
+
+/* ── Event type ── */
+interface Event {
+  id: number;
+  title: string;
+  img: string;
+  date: string;
+  coords: string;
+  desc: string;
+  status?: string;
+  registrationLink?: string;
+}
+
+const EVENTS = _EVENTS as Event[];
 
 /* ── Laser line draw animation ── */
 const lineDraw = {
@@ -53,6 +67,13 @@ function SectionHeader({ label }: { label: string }) {
   );
 }
 
+/* ── Status color config ── */
+const STATUS_CONFIG: Record<string, { dot: string; text: string; pulse: boolean }> = {
+  LIVE: { dot: 'bg-red-400', text: 'text-red-400/80', pulse: true },
+  UPCOMING: { dot: 'bg-cyan-400', text: 'text-cyan-400/80', pulse: false },
+  CONCLUDED: { dot: 'bg-white/20', text: 'text-white/30', pulse: false },
+};
+
 export default function EventsSection() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
@@ -87,6 +108,7 @@ export default function EventsSection() {
         >
           {EVENTS.map((event, idx) => {
             const isActive = hoveredIdx === idx;
+            const statusCfg = event.status ? STATUS_CONFIG[event.status] : null;
 
             return (
               <motion.div
@@ -118,6 +140,18 @@ export default function EventsSection() {
                   transition={{ duration: 0.4 }}
                   style={{ background: '#020208' }}
                 />
+
+                {/* Status indicator — top-left beacon (only if status is set) */}
+                {statusCfg && (
+                  <div className="absolute top-2.5 left-2.5 z-20 flex items-center gap-1.5">
+                    <div
+                      className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${statusCfg.dot} ${statusCfg.pulse ? 'animate-pulse' : ''}`}
+                    />
+                    <span className={`font-heading text-[8px] tracking-[0.18em] uppercase font-bold ${statusCfg.text}`}>
+                      {event.status}
+                    </span>
+                  </div>
+                )}
 
                 {/* Vertical title label (always present, fades when active) */}
                 <motion.div
@@ -186,18 +220,38 @@ export default function EventsSection() {
                           </div>
                         </div>
 
-                        {/* RSVP button */}
-                        <motion.button
-                          whileHover={{
-                            boxShadow: '0 0 18px rgba(0,212,255,0.5)',
-                            borderColor: 'rgba(0,212,255,0.8)',
-                          }}
-                          className="mt-2 font-heading text-[10px] font-bold tracking-[0.18em] uppercase text-white border border-white/25 rounded px-3.5 py-2 flex items-center gap-2 w-fit transition-colors"
-                          style={{ background: 'rgba(0,212,255,0.08)' }}
-                        >
-                          <Satellite size={11} />
-                          RSVP / JOIN MISSION
-                        </motion.button>
+                        {/* CTA — active registration link OR concluded badge */}
+                        {event.registrationLink ? (
+                          <motion.a
+                            href={event.registrationLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{
+                              boxShadow: '0 0 18px rgba(0,212,255,0.5)',
+                              borderColor: 'rgba(0,212,255,0.8)',
+                            }}
+                            className="mt-2 font-heading text-[10px] font-bold tracking-[0.18em] uppercase text-white border border-white/25 rounded px-3.5 py-2 flex items-center gap-2 w-fit transition-colors"
+                            style={{ background: 'rgba(0,212,255,0.08)' }}
+                          >
+                            <Satellite size={11} />
+                            RSVP / JOIN MISSION
+                          </motion.a>
+                        ) : (
+                          <div
+                            className="mt-2 font-heading text-[10px] tracking-[0.18em] uppercase border rounded px-3.5 py-2 flex items-center gap-2 w-fit"
+                            style={{
+                              color: 'rgba(255,255,255,0.22)',
+                              borderColor: 'rgba(255,255,255,0.10)',
+                              background: 'rgba(255,255,255,0.02)',
+                            }}
+                          >
+                            <span
+                              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                              style={{ background: 'rgba(255,255,255,0.18)' }}
+                            />
+                            EVENT CONCLUDED
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   )}
