@@ -18,7 +18,7 @@ export const JOIN_HUB_URL = 'https://forms.gle/YOUR_GOOGLE_FORM_ID';
 
 // Set to a string to show the top announcement banner. Set to null to hide it.
 export const ANNOUNCEMENT =
-  'New: Session 07 // Gravitational Lensing & Einstein Rings — JAN 2026 | Registration now open';
+  'New: Session 07 // TO be Decided — 17 June 2026 ';
 
 // ── About section ────────────────────────────
 export const ABOUT_METRICS = [
