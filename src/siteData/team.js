@@ -24,8 +24,8 @@ export const COORDINATORS = [
     name: 'Urmi Singha',
     role: 'Club President / Student Coordinator',
     avatar: 'public/member_images/1_urmi.jpeg',
-    // ring: 'cyan',
-    ring: 'green',
+    ring: 'cyan',
+    //ring: 'green',
     tag: 'PRESIDENT',
     links: {
       linkedin: 'https://www.linkedin.com/in/urmisingha003/',
